@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+    background: #111;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+input {
+    display: none;
+}
+
+/* HEART */
+.heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.heart img {
+    width: 60px;
+    transition: 0.3s;
+}
+
+.beating img {
+    animation: beat 1s infinite;
+}
+
+@keyframes beat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* MESSAGE BOX */
+.message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 420px;
+    background: #eee;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.closed {
+    height: 0;
+    padding: 0 20px;
+}
+
+.no-anim {
+    animation: none;
+}
+
+.open {
+    animation: openMsg 1.5s forwards;
+}
+
+.close {
+    animation: closeMsg 1.5s forwards;
+}
+
+@keyframes openMsg {
+    from { height: 0; padding: 0 20px; }
+    to { height: 70%; padding: 20px; }
+}
+
+@keyframes closeMsg {
+    from { height: 70%; padding: 20px; }
+    to { height: 0; padding: 0 20px; }
+}
+
+.heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 2;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.heart.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -60%);
+}
+
+.heart.fade-in {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.hint {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    animation: upDown 2s infinite;
+}
+
+@keyframes upDown {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
