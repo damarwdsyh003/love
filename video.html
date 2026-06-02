@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Untuk Adel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-video">
+
+<main class="page-shell story-shell page-video">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="ambient ambient-three"></div>
+
+    <section class="hero hero--video">
+        <div class="badge">Video pembuka untuk Adel</div>
+        <h1>Putar videonya dulu, lalu lanjut ke surat kecil.</h1>
+        <p class="intro">
+            Ini bagian yang aku pengen kamu lihat dulu. Setelah videonya selesai, tombol buat lanjut ke surat kecil akan muncul.
+        </p>
+    </section>
+
+    <section class="video-stage-section" aria-label="Video pembuka">
+        <div class="intro-panel">
+            <div class="intro-panel-head">
+                <span class="panel-kicker">Video pembuka</span>
+                <span class="panel-note">nanti tinggal isi file videomu</span>
+            </div>
+
+            <div class="video-frame">
+                <video id="storyVideo" class="story-video" playsinline preload="metadata" muted>
+                    <source src="vid.mp4" type="video/mp4">
+                </video>
+
+                <div class="video-overlay">
+                    <span class="video-pill">Untuk Adel</span>
+                    <p id="videoStatus" class="video-status">
+                        Isi dulu file videonya. Setelah itu tombol ini akan langsung memutarnya, lalu muncul tombol menuju surat kecil.
+                    </p>
+
+                    <div class="video-actions">
+                        <button id="playVideoButton" class="primary-btn" type="button">Putar video</button>
+                        <button id="openLetterButton" class="secondary-btn" type="button" hidden>Lanjut ke surat kecil</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sparkle-row" aria-hidden="true">
+                <span>💗</span>
+                <span>✨</span>
+                <span>💌</span>
+                <span>🌷</span>
+                <span>💗</span>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
