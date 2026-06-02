@@ -1,51 +1,91 @@
-const checkbox = document.getElementById("messageState");
-const message = document.querySelector(".message");
-const heart = document.querySelector(".heart");
+const storyVideo = document.getElementById("storyVideo");
+const playVideoButton = document.getElementById("playVideoButton");
+const openLetterButton = document.getElementById("openLetterButton");
+const videoStatus = document.getElementById("videoStatus");
 
-function openMessage() {
-    checkbox.checked = true;
-    message.classList.remove("close", "no-anim");
-    message.classList.add("open");
+const letterUrl = "letter.html";
 
-    heart.classList.add("fade-out");
-    heart.classList.remove("fade-in", "beating");
-}
+function burstHearts() {
+    const amount = 14;
 
-function closeMessage() {
-    checkbox.checked = false;
-    message.classList.remove("open", "no-anim");
-    message.classList.add("close");
+    for (let index = 0; index < amount; index += 1) {
+        const heart = document.createElement("span");
+        heart.textContent = "❤";
+        heart.className = "burst-heart";
 
-    heart.classList.remove("fade-out");
-    heart.classList.add("fade-in", "beating");
-}
+        const size = 12 + Math.random() * 18;
+        const x = 25 + Math.random() * 50;
+        const delay = Math.random() * 0.25;
+        const drift = -120 + Math.random() * 240;
+        const duration = 1500 + Math.random() * 700;
 
-/* CLICK HEART */
-checkbox.addEventListener("change", () => {
-    checkbox.checked ? openMessage() : closeMessage();
-});
+        heart.style.left = `${x}%`;
+        heart.style.bottom = "20%";
+        heart.style.fontSize = `${size}px`;
+        heart.style.setProperty("--drift", `${drift}px`);
+        heart.style.animationDelay = `${delay}s`;
+        heart.style.animationDuration = `${duration}ms`;
 
-/* ===== SWIPE GESTURE ===== */
-let startY = 0;
-let endY = 0;
+        document.body.appendChild(heart);
 
-document.addEventListener("touchstart", e => {
-    startY = e.touches[0].clientY;
-});
-
-document.addEventListener("touchend", e => {
-    endY = e.changedTouches[0].clientY;
-    handleSwipe();
-});
-
-function handleSwipe() {
-    const distance = startY - endY;
-
-    if (distance > 80) {
-        // swipe up
-        openMessage();
-    } else if (distance < -80) {
-        // swipe down
-        closeMessage();
+        window.setTimeout(() => {
+            heart.remove();
+        }, duration + 250);
     }
 }
+
+function showLetterButton(message) {
+    if (message) {
+        videoStatus.textContent = message;
+    }
+
+    openLetterButton.hidden = false;
+    openLetterButton.focus({ preventScroll: true });
+}
+
+async function playIntroVideo() {
+    if (!storyVideo) {
+        return;
+    }
+
+    const sourceElement = storyVideo.querySelector("source");
+    const videoSource = sourceElement ? sourceElement.getAttribute("src")?.trim() : "";
+
+    if (!videoSource) {
+        showLetterButton("Videonya belum dipasang dulu. Surat kecilnya tetap disiapkan, jadi kamu bisa lanjut sekarang.");
+        return;
+    }
+
+    try {
+        playVideoButton.disabled = true;
+        playVideoButton.textContent = "Video sedang diputar";
+        videoStatus.textContent = "Videonya lagi berjalan... tunggu sebentar ya.";
+        await storyVideo.play();
+    } catch (error) {
+        playVideoButton.disabled = false;
+        playVideoButton.textContent = "Putar video";
+        videoStatus.textContent = "Browser menahan pemutaran video. Coba klik lagi setelah file videonya siap.";
+    }
+}
+
+if (playVideoButton && storyVideo) {
+    playVideoButton.addEventListener("click", playIntroVideo);
+}
+
+if (openLetterButton) {
+    openLetterButton.addEventListener("click", () => {
+        window.location.href = letterUrl;
+    });
+}
+
+if (storyVideo) {
+    storyVideo.addEventListener("ended", () => {
+        showLetterButton("Videonya selesai. Sekarang kamu bisa buka surat kecilnya.");
+    });
+}
+
+window.addEventListener("load", () => {
+    if (storyVideo && !storyVideo.querySelector("source")?.getAttribute("src")?.trim()) {
+        videoStatus.textContent = "Videonya masih kosong. Kalau file sudah siap, tombol putar akan langsung memainkannya.";
+    }
+});
